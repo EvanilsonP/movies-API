@@ -1,4 +1,4 @@
-const Movie = require('../model/Schema');
+const Movie = require('../model/schema');
 
 const welcome = async (req, res) => {
     res.send('Hi!');

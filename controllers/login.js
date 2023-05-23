@@ -1,7 +1,15 @@
 const User = require('../model/user');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const authConfig = require('../config/auth.json');
 
-const authenticate = async (req, res) => {
+function generateToken(params = {}) {
+    return jwt.sign(params, authConfig.secret, {
+        expiresIn: 86400
+    });
+};
+
+const login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
@@ -13,7 +21,11 @@ const authenticate = async (req, res) => {
     if(!await bcrypt.compare(password, user.password)) {
         return res.status(400).send({ error: 'Invalid password'});
     }
-    res.send({ user });
+
+    res.send({
+        user,
+        token: generateToken({ id: user._id }),
+    });
 };
 
-module.exports = { authenticate };
+module.exports = { login, generateToken };
