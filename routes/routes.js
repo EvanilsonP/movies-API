@@ -10,5 +10,6 @@ routes.put('/movie/:id', controllers.updateMovie);
 routes.delete('/movie/:id', controllers.deleteMovie);
 
 routes.get('/signup', userController.signup);
+routes.post('/signup', userController.signup_post);
 
 module.exports = routes;
